@@ -15,17 +15,16 @@ package
 	 */
 	public class GameMain extends Sprite
 	{
-		private var keys:Array;
 		private var _fieldX:Number;
 		private var _fieldY:Number;
 		
-		public function GameMain()
+		private var player:Player;
+		
+		public function GameMain() 
 		{
-			keys = [];
-
+ 			
 			addEventListener(Event.ENTER_FRAME, loop);
 			addEventListener(Event.ADDED_TO_STAGE, addedStage);
-
 			super();
 		}
 
@@ -36,6 +35,18 @@ package
 			stage.addEventListener(MouseEvent.CLICK, onMouseClick);
 			_fieldX = 600;
 			_fieldY = stage.stageHeight;
+			
+			graphics.beginFill(0x0);
+			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+			graphics.endFill();
+			
+			AnimSprite.stage = stage;
+			player = new Player();
+			addChild(player);
+			
+			player.x = 200 * 2;
+			player.y = 200 * 2;
+
 		}
 		
 		private function onMouseClick(e:MouseEvent):void 
@@ -45,17 +56,17 @@ package
 		
 		private function onKeyDown(e:KeyboardEvent):void
 		{
-			keys[e.keyCode] = true;
+			Key.keys[e.keyCode] = true;
 		}
 		
 		private function onKeyUp(e:KeyboardEvent):void
 		{
-			keys[e.keyCode] = false;
+			Key.keys[e.keyCode] = false;
 		}
 		
 		private function loop(e:Event):void
 		{
-
+			player.update();
 		}
 	
 		public function get fieldX(): Number
