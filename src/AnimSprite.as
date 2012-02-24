@@ -30,6 +30,7 @@ package
  
 			var bd:BitmapData = new BitmapData(width, height, true, 0x0);
 			addChild(bitmap = new Bitmap(bd));
+			super();
 		}
  
 		public function addAnimation(name:String, frames:Array, delay:Number, looped:Boolean = true):void

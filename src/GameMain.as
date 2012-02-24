@@ -1,13 +1,12 @@
 package
 {
 	import flash.display.Sprite;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.events.TimerEvent;
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	import flash.utils.Timer;
+	import flash.geom.*;
 	
 	/**
 	 * ...
@@ -15,15 +14,19 @@ package
 	 */
 	public class GameMain extends Sprite
 	{
+		[Embed(source = "../resource/bg.png")]
+		private var bgPNG:Class;
+		
 		private var _fieldX:Number;
 		private var _fieldY:Number;
 		
 		private var player:Player;
-		
+		private var srcbd:BitmapData;
+		private var bd:BitmapData;
+		private var tx:Number=0;
+
 		public function GameMain() 
-		{
- 			
-			addEventListener(Event.ENTER_FRAME, loop);
+		{ 			
 			addEventListener(Event.ADDED_TO_STAGE, addedStage);
 			super();
 		}
@@ -33,19 +36,22 @@ package
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			stage.addEventListener(MouseEvent.CLICK, onMouseClick);
-			_fieldX = 600;
-			_fieldY = stage.stageHeight;
-			
-			graphics.beginFill(0x0);
-			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-			graphics.endFill();
+			_fieldX = 800;
+			_fieldY = 400;
+
+			var bg:Bitmap = new bgPNG() as Bitmap;
+			srcbd = bg.bitmapData;
+			bd = new BitmapData(_fieldX,_fieldY);
+			bd.copyPixels(srcbd, new Rectangle(0,0,_fieldX,_fieldY), new Point());
+			addChild(new Bitmap(bd));
 			
 			AnimSprite.stage = stage;
 			player = new Player();
 			addChild(player);
+			addEventListener(Event.ENTER_FRAME, loop);
 			
-			player.x = 200 * 2;
-			player.y = 200 * 2;
+			player.x = 400;
+			player.y = 280;
 
 		}
 		
@@ -67,6 +73,11 @@ package
 		private function loop(e:Event):void
 		{
 			player.update();
+			var tx:Number = player.speed;
+			var copybd:BitmapData = srcbd.clone();
+			srcbd.scroll(tx,0);
+			srcbd.copyPixels(copybd, new Rectangle(1600 - tx, 0, tx, _fieldY), new Point());
+			bd.copyPixels(srcbd, new Rectangle(0,0,_fieldX,_fieldY), new Point());
 		}
 	
 		public function get fieldX(): Number

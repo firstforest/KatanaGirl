@@ -15,6 +15,7 @@ package
 			this.index = index;
 			this.delay = delay;
 			this.looped = looped;
+			super();5
 		}
 	}
 }
