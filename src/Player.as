@@ -9,10 +9,11 @@ package
 		private var CharacterPNG:Class;
 		private const FRAME_RATE:Number = 10.0;
 		public var speed:Number = 0;
+		private var pSpeed:Number = 0;
 		
-		private static const FIRST_MAX_SPEED:Number = 10;
-		private static const SECOND_MAX_SPEED:Number = 20;
-		private static const THRID_MAX_SPEED:Number = 40;
+		private static const FIRST_MAX_SPEED:Number = 100;
+		private static const SECOND_MAX_SPEED:Number = 200;
+		private static const THRID_MAX_SPEED:Number = 400;
 		
 		public function Player()
 		{
@@ -21,6 +22,7 @@ package
 			
 			addAnimation("left", [5,6,7], FRAME_RATE);
 			addAnimation("charge", [10], FRAME_RATE);
+			addAnimation("maxSpeed", [10], FRAME_RATE);
 			addAnimation("idle", [0], 0, false);
 			play("idle");
 		}
@@ -29,55 +31,39 @@ package
 		{
 			if (Key.keys[Key.SPACE] || Key.keys[Key.LEFT])
 			{
-				if (speed < 1) speed = 1;
+				pSpeed ++;
 				play("left");
-				if (speed < FIRST_MAX_SPEED)
+				if (pSpeed < FIRST_MAX_SPEED)
 				{
-					if (speed < FIRST_MAX_SPEED * 0.77)
-					{
-						speed += 0.1;
-					}
-					else
-					{
-						play("charge");
-						speed = FIRST_MAX_SPEED;
-					}
-					
+					speed = 10;
 				}
-				else if (speed < SECOND_MAX_SPEED)
+				else if (pSpeed < SECOND_MAX_SPEED)
 				{
-					if (speed < SECOND_MAX_SPEED * 0.77)
-					{
-						speed += 0.1;
-					}
-					else
-					{
-						play("charge");
-						speed = SECOND_MAX_SPEED;
-					}
+					speed = 20;
 				}
-				else if (speed < THRID_MAX_SPEED)
+				else if (pSpeed < THRID_MAX_SPEED)
 				{
-					if (speed < THRID_MAX_SPEED*0.77)
-					{
-						speed += 0.1;
-					}
-					else
-					{
-						play("charge");
-						speed = THRID_MAX_SPEED;
-					}
+					speed = 40;
 				}
 				else
 				{
-					play("charge");
+					pSpeed = THRID_MAX_SPEED;
+					play("maxSpeed");
 				}
 				
  			}
 			else
 			{
 				play("charge");
-				if (speed > 0) speed-=0.1;
+				if (pSpeed > 0) pSpeed--;
+				if (speed > 0)
+				{
+					speed--;
+				}
+				else
+				{
+					pSpeed = 0;
+				}
 			}
  
 			super.update();

@@ -21,6 +21,7 @@ package
 		private var _fieldY:Number;
 		
 		private var player:Player;
+		private var enemy:Enemy
 		private var srcbd:BitmapData;
 		private var bd:BitmapData;
 		private var tx:Number=0;
@@ -47,17 +48,22 @@ package
 			
 			AnimSprite.stage = stage;
 			player = new Player();
-			addChild(player);
-			addEventListener(Event.ENTER_FRAME, loop);
-			
 			player.x = 400;
 			player.y = 280;
+			addChild(player);
+			
+			enemy = new Enemy();
+			enemy.x = 0;
+			enemy.y = 280;
+			addChild(enemy);
 
+			addEventListener(Event.ENTER_FRAME, loop);
+			
 		}
 		
 		private function onMouseClick(e:MouseEvent):void 
 		{
-
+			
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void
@@ -73,7 +79,19 @@ package
 		private function loop(e:Event):void
 		{
 			player.update();
+			enemy.update();
 			var tx:Number = player.speed;
+			
+			// Enemy Position update
+			enemy.x += tx;
+			
+			// Enemy Encount
+			if (player.x == enemy.x )
+			{
+				removeChild(enemy);
+			}
+			
+			// BackGround update
 			var copybd:BitmapData = srcbd.clone();
 			srcbd.scroll(tx,0);
 			srcbd.copyPixels(copybd, new Rectangle(1600 - tx, 0, tx, _fieldY), new Point());
