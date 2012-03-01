@@ -19,8 +19,8 @@ package
 			var bitmap:Bitmap = new CharacterPNG() as Bitmap;
 			super(bitmap.bitmapData, 200, 200);
 			
-			addAnimation("left", [1,2], FRAME_RATE);
-			addAnimation("charge", [0], FRAME_RATE);
+			addAnimation("left", [5,6,7], FRAME_RATE);
+			addAnimation("charge", [10], FRAME_RATE);
 			addAnimation("idle", [0], 0, false);
 			play("idle");
 		}
@@ -35,7 +35,7 @@ package
 				{
 					if (speed < FIRST_MAX_SPEED * 0.77)
 					{
-						speed += 0.01;
+						speed += 0.1;
 					}
 					else
 					{
@@ -48,7 +48,7 @@ package
 				{
 					if (speed < SECOND_MAX_SPEED * 0.77)
 					{
-						speed += 0.01;
+						speed += 0.1;
 					}
 					else
 					{
@@ -60,7 +60,7 @@ package
 				{
 					if (speed < THRID_MAX_SPEED*0.77)
 					{
-						speed += 0.01;
+						speed += 0.1;
 					}
 					else
 					{
@@ -77,7 +77,7 @@ package
 			else
 			{
 				play("charge");
-				if (speed > 0) speed-=0.3;
+				if (speed > 0) speed-=0.1;
 			}
  
 			super.update();
