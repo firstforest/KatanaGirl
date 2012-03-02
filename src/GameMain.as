@@ -21,7 +21,9 @@ package
 		private var _fieldY:Number;
 		
 		private var player:Player;
-		private var enemy:Enemy
+		private var enemy:Enemy;
+		private var enemys:Vector.<Enemy>;
+		
 		private var srcbd:BitmapData;
 		private var bd:BitmapData;
 		private var tx:Number=0;
@@ -52,10 +54,15 @@ package
 			player.y = 280;
 			addChild(player);
 			
-			enemy = new Enemy();
-			enemy.x = 0;
-			enemy.y = 280;
+			enemy = new Enemy(0, 280);
 			addChild(enemy);
+			
+			enemys = new Vector.<Enemy>();
+			for (var i:int = 0; i < 3; i++)
+			{
+				enemys.push(new	Enemy(0, 280));
+			}
+			
 
 			addEventListener(Event.ENTER_FRAME, loop);
 			
@@ -86,9 +93,21 @@ package
 			enemy.x += tx;
 			
 			// Enemy Encount
-			if (player.x == enemy.x )
+			if (player.x - enemy.x < player.speed)
 			{
-				removeChild(enemy);
+				if (enemy.encount(player.getAtk()))
+				{
+					// 敵を倒せた時
+					enemy.death();
+					enemy = enemys.pop();
+					addChild(enemy);
+					enemys.push(new Enemy(0,280));
+				}
+				else 
+				{
+					// 敵を倒せなかった時
+					
+				}
 			}
 			
 			// BackGround update

@@ -10,6 +10,8 @@ package
 		private const FRAME_RATE:Number = 10.0;
 		public var speed:Number = 0;
 		private var pSpeed:Number = 0;
+		private var atk:int = 10;
+		
 		
 		private static const FIRST_MAX_SPEED:Number = 100;
 		private static const SECOND_MAX_SPEED:Number = 200;
@@ -27,27 +29,47 @@ package
 			play("idle");
 		}
  
+		public function getAtk():int
+		{
+			return atk;
+		}
+		
 		override public function update():void 
 		{
 			if (Key.keys[Key.SPACE] || Key.keys[Key.LEFT])
 			{
 				pSpeed ++;
-				play("left");
-				if (pSpeed < FIRST_MAX_SPEED)
+				if (pSpeed < FIRST_MAX_SPEED-3)
 				{
+					play("left");
 					speed = 10;
+				}
+				else if (pSpeed < FIRST_MAX_SPEED)
+				{
+					speed = 1;
+				}	
+				else if (pSpeed < SECOND_MAX_SPEED-3)
+				{
+					play("left");
+					speed = 20;
 				}
 				else if (pSpeed < SECOND_MAX_SPEED)
 				{
-					speed = 20;
+					speed = 1;
+				}
+				else if (pSpeed < THRID_MAX_SPEED-3)
+				{
+					play("left");
+					speed = 40;
 				}
 				else if (pSpeed < THRID_MAX_SPEED)
 				{
-					speed = 40;
+					speed = 1;
 				}
 				else
 				{
 					pSpeed = THRID_MAX_SPEED;
+					speed = 40;
 					play("maxSpeed");
 				}
 				
@@ -68,5 +90,6 @@ package
  
 			super.update();
 		}
+
 	}
 }
