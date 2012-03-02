@@ -13,9 +13,9 @@ package
 		private var atk:int = 10;
 		
 		
-		private static const FIRST_MAX_SPEED:Number = 100;
-		private static const SECOND_MAX_SPEED:Number = 200;
-		private static const THRID_MAX_SPEED:Number = 400;
+		private static const FIRST_MAX_SPEED:Number = 200;
+		private static const SECOND_MAX_SPEED:Number = 500;
+		private static const THRID_MAX_SPEED:Number = 1000;
 		
 		public function Player()
 		{

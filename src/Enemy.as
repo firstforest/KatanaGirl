@@ -3,12 +3,17 @@ package
 	import flash.display.Bitmap;
 	import flash.geom.Point;
 	import flash.display.*;
+	import flash.media.Sound;
 
 
 public class Enemy extends AnimSprite
 {
+	[Embed(source = "../resource/sen_ka_katana_kosure01.mp3", mimeType = "audio/mpeg")]
+	private var deathSE:Class;
+	
 	private var score:Number;
 	private var def:int;
+	private var dSE:Sound;
 	
 	public function Enemy(x:Number, y:Number)
 	{
@@ -24,12 +29,15 @@ public class Enemy extends AnimSprite
 		shape.draw(tSprite);
 		super(shape,200,200);
 		
+		dSE = new deathSE;
+		
 		addAnimation("idle", [0], 0, false);
 		play("idle");
 	}
 	
 	public function death():Number
 	{
+		dSE.play();
 		this.parent.removeChild(this);
 		return score;
 	}

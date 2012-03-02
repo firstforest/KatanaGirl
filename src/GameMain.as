@@ -93,7 +93,7 @@ package
 			enemy.x += tx;
 			
 			// Enemy Encount
-			if (player.x - enemy.x < player.speed)
+			if ((player.x-100) - enemy.x < player.speed)
 			{
 				if (enemy.encount(player.getAtk()))
 				{
@@ -101,7 +101,7 @@ package
 					enemy.death();
 					enemy = enemys.pop();
 					addChild(enemy);
-					enemys.push(new Enemy(0,280));
+					enemys.push(new Enemy(-200,280));
 				}
 				else 
 				{
