@@ -11,6 +11,7 @@ package
 		public var speed:Number = 0;
 		private var pSpeed:Number = 0;
 		private var atk:int = 10;
+		private var isRun:Boolean = false;
 		
 		
 		private static const FIRST_MAX_SPEED:Number = 200;
@@ -38,6 +39,7 @@ package
 		{
 			if (Key.keys[Key.SPACE] || Key.keys[Key.LEFT])
 			{
+				isRun = true;
 				pSpeed ++;
 				if (pSpeed < FIRST_MAX_SPEED-3)
 				{
@@ -60,7 +62,7 @@ package
 				else if (pSpeed < THRID_MAX_SPEED-3)
 				{
 					play("left");
-					speed = 40;
+					speed = 30;
 				}
 				else if (pSpeed < THRID_MAX_SPEED)
 				{
@@ -69,18 +71,19 @@ package
 				else
 				{
 					pSpeed = THRID_MAX_SPEED;
-					speed = 40;
+					speed = 30;
 					play("maxSpeed");
 				}
 				
  			}
 			else
 			{
+				isRun = false;
 				play("charge");
 				if (pSpeed > 0) pSpeed--;
 				if (speed > 0)
 				{
-					speed--;
+					speed -= 0.5;
 				}
 				else
 				{
@@ -91,5 +94,9 @@ package
 			super.update();
 		}
 
+		public function getIsRun():Boolean
+		{
+			return isRun;
+		}
 	}
 }

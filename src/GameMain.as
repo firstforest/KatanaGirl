@@ -50,17 +50,17 @@ package
 			
 			AnimSprite.stage = stage;
 			player = new Player();
-			player.x = 400;
-			player.y = 280;
+			player.x = 600;
+			player.y = 200;
 			addChild(player);
 			
-			enemy = new Enemy(0, 280);
+			enemy = new Enemy(-200, 200);
 			addChild(enemy);
 			
 			enemys = new Vector.<Enemy>();
 			for (var i:int = 0; i < 3; i++)
 			{
-				enemys.push(new	Enemy(0, 280));
+				enemys.push(new	Enemy(-200, 200));
 			}
 			
 
@@ -87,13 +87,9 @@ package
 		{
 			player.update();
 			enemy.update();
-			var tx:Number = player.speed;
-			
-			// Enemy Position update
-			enemy.x += tx;
 			
 			// Enemy Encount
-			if ((player.x-100) - enemy.x < player.speed)
+			if ((player.x+50) - (enemy.x+200) < player.speed)
 			{
 				if (enemy.encount(player.getAtk()))
 				{
@@ -101,7 +97,7 @@ package
 					enemy.death();
 					enemy = enemys.pop();
 					addChild(enemy);
-					enemys.push(new Enemy(-200,280));
+					enemys.push(new Enemy(-200,200));
 				}
 				else 
 				{
@@ -110,11 +106,44 @@ package
 				}
 			}
 			
-			// BackGround update
-			var copybd:BitmapData = srcbd.clone();
-			srcbd.scroll(tx,0);
-			srcbd.copyPixels(copybd, new Rectangle(1600 - tx, 0, tx, _fieldY), new Point());
-			bd.copyPixels(srcbd, new Rectangle(0,0,_fieldX,_fieldY), new Point());
+			// move
+			var tx:Number = player.speed;
+			
+			if (player.getIsRun())
+			{
+				if (player.x > 400)
+				{
+					player.x -= tx;	
+				}
+				else
+				{
+					// enemy position update
+					enemy.x += tx;
+
+					var copybd:BitmapData = srcbd.clone();
+					srcbd.scroll(tx,0);
+					srcbd.copyPixels(copybd, new Rectangle(1600 - tx, 0, tx, _fieldY), new Point());
+					bd.copyPixels(srcbd, new Rectangle(0,0,_fieldX,_fieldY), new Point());
+				}
+			}
+			else
+			{
+				if (player.x < 600 && tx > 1)
+				{
+						player.x += 1;
+						tx -= 1;
+				}
+					// enemy position update
+					enemy.x += tx;	
+					var copybd:BitmapData = srcbd.clone();
+					srcbd.scroll(tx,0);
+					srcbd.copyPixels(copybd, new Rectangle(1600 - tx, 0, tx, _fieldY), new Point());
+					bd.copyPixels(srcbd, new Rectangle(0,0,_fieldX,_fieldY), new Point());
+				
+				
+
+				
+			}
 		}
 	
 		public function get fieldX(): Number
